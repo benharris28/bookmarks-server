@@ -1,0 +1,10 @@
+{"message":"Bookmark with id 2 not found","level":"error"}
+{"message":"Bookmark with id 2 not found","level":"error"}
+{"message":"Bookmark with id 2 not found","level":"error"}
+{"message":"Bookmark with id 2 not found","level":"error"}
+{"message":"Unauthorized request to path: /bookmarks","level":"error"}
+{"message":"Rating is not valid","level":"error"}
+{"message":"URL is not valid","level":"error"}
+{"message":"URL is not valid","level":"error"}
+{"message":"Bookmark with id 091e82a7-a5ab-422c-b302-01846a2fab0c created","level":"info"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
