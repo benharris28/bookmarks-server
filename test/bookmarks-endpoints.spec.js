@@ -67,6 +67,8 @@ describe(`GET /bookmarks`, () => {
                     expect(res.body.url).to.be.eql(newBookmark.url)
                     expect(res.body.description).to.be.eql(newBookmark.description)
                     expect(res.body.rating).to.be.eql(newBookmark.rating)
+                    expect(res.body).to.have.property('id')
+                    expect(res.headers.location).to.eql(`/bookmarks/${res.body.id}`)
                 })
                 .then(res => 
                     supertest(app)

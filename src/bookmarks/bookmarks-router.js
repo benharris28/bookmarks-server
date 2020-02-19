@@ -94,11 +94,11 @@ bookmarksRouter
             newBookmark
         )
         .then(bookmark => {
-            logger.info(`Bookmark with id ${id} created`);
+            logger.info(`Bookmark with id ${bookmark.id} created`);
 
         res
             .status(201)
-            .location(`http://localhost:8000/bookmarks/${id}`)
+            .location(`/bookmarks/${bookmark.id}`)
             .json(serializeBookmark(bookmark))
 
         })
