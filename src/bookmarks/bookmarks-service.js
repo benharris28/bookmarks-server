@@ -11,6 +11,15 @@ const BookmarksService = {
             .from('bookmarks_list')
             .where('id', id)
             .first()
+    },
+    insertBookmark(knex, newBookmark) {
+        return knex
+            .insert(newBookmark)
+            .into('bookmarks_list')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
     }
 }
 

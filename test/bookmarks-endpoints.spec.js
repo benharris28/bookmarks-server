@@ -49,10 +49,38 @@ describe(`GET /bookmarks`, () => {
         })
     })
 })
+    describe.only(`POST /bookmarks`, () => {
+        it(`creates a bookmark, responding with 201 and the new bookmark`, () => {
+            const newBookmark = {
+                title: 'Google',
+                url: 'https://www.google.com',
+                description: 'Where we find everything else',
+                rating: 4,
+            } 
+            return supertest(app)
+                .post('/bookmarks')
+                .send(newBookmark)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.title).to.be.eql(newBookmark.title)
+                    expect(res.body.url).to.be.eql(newBookmark.url)
+                    expect(res.body.description).to.be.eql(newBookmark.description)
+                    expect(res.body.rating).to.be.eql(newBookmark.rating)
+                })
+                .then(res => 
+                    supertest(app)
+                    .get(`/bookmarks/${res.body.id}`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                    .expect(res.body)
+        )
+    })
+})
 
     describe('Get /bookmarks/:id', () => {
         context('Given no bookmarks', () => {
             it(`responds with 404 when bookmark doesn't exist`, () => {
+               
                 return supertest(app)
                     .get('/bookmarks/123')
                     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)

@@ -3,10 +3,19 @@ const uuid = require('uuid/v4')
 const logger = require('../logger')
 const store = require('../store')
 const isUrl = require('is-url')
+const xss = require('xss')
 const BookmarksService = require('./bookmarks-service')
 
 const bookmarksRouter = express.Router()
 const bodyParser = express.json()
+
+const serializeBookmark = bookmark => ({
+    id: bookmark.id,
+    title: xss(bookmark.title),
+    url: bookmark.url,
+    description: xss(bookmark.description),
+    rating: Number(bookmark.rating)
+})
 
 bookmarksRouter
     .route('/bookmarks')
@@ -15,16 +24,16 @@ bookmarksRouter
 
         BookmarksService.getAllBookmarks(req.app.get('db'))
         .then(bookmarks => {
-            res.json(bookmarks)
+            res.json(bookmarks.map(serializeBookmark))
         })
         .catch((err) => {
             console.log(err);
             next();
          })
     })
-    .post(bodyParser, (req, res) => {
+    .post(bodyParser, (req, res, next) => {
         
-        const { title, url, rating, desc} = req.body;
+        const { title, url, description, rating} = req.body;
 
         if(!title) {
             logger.error('Title is required');
@@ -47,7 +56,7 @@ bookmarksRouter
                 .send('Invalid data');
         }
 
-        if(!desc) {
+        if(!description) {
             logger.error('Description is required');
             return res
                 .status(400)
@@ -69,27 +78,35 @@ bookmarksRouter
         }
 
 
-        const id = uuid();
+       
 
-        const bookmark = {
-            id,
+        const newBookmark = {
+    
             title,
             url,
+            description,
             rating,
-            desc
+            
         };
 
-        store.bookmarks.push(bookmark);
-
-        logger.info(`Bookmark with id ${id} created`);
+        BookmarksService.insertBookmark(
+            req.app.get('db'),
+            newBookmark
+        )
+        .then(bookmark => {
+            logger.info(`Bookmark with id ${id} created`);
 
         res
             .status(201)
             .location(`http://localhost:8000/bookmarks/${id}`)
-            .json(bookmark)
+            .json(serializeBookmark(bookmark))
+
+        })
+        .catch(next)
+        })
 
 
-    })
+        
 
 
 bookmarksRouter

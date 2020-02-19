@@ -16,3 +16,7 @@
 {"message":"Bookmark with id 123 not found","level":"error"}
 {"message":"Bookmark with id 123 not found","level":"error"}
 {"message":"Bookmark with id 123 not found","level":"error"}
+{"message":"Description is required","level":"error"}
+{"message":"Description is required","level":"error"}
+{"message":"Description is required","level":"error"}
+{"message":"Description is required","level":"error"}
