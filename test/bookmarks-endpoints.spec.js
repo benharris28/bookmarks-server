@@ -49,7 +49,7 @@ describe(`GET /bookmarks`, () => {
         })
     })
 })
-    describe.only(`POST /bookmarks`, () => {
+    describe(`POST /bookmarks`, () => {
         it(`creates a bookmark, responding with 201 and the new bookmark`, () => {
             const newBookmark = {
                 title: 'Google',
@@ -77,6 +77,19 @@ describe(`GET /bookmarks`, () => {
                     .expect(res.body)
         )
     })
+
+    it('removes XSS attack content from response', () => {
+        const { maliciousBookmark, expectedBookmark } = fixtures.makeMaliciousBookmark()
+        return supertest(app)
+            .post(`/bookmarks`)
+            .send(maliciousBookmark)
+            .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+            .expect(201)
+            .expect(res => {
+                expect(res.body.title).to.eql(expectedBookmark.title)
+                expect(res.body.description).to.eql(expectedBookmark.description)
+            })
+    })
 })
 
     describe('Get /bookmarks/:id', () => {
@@ -90,6 +103,46 @@ describe(`GET /bookmarks`, () => {
                         error: { message: `Bookmark not found`}
                     })
 
+            })
+        })
+    })
+
+    describe.only('DELETE /bookmarks/:id', () => {
+        context('Given no bookmarks', () => {
+            it(`responds 404 bookmark does not exist `, () => {
+                return supertest(app)
+                    .delete(`/bookmarks/123`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                    .expect(404, {
+                        error: { message: `Bookmark not found`}
+                    })
+
+            })
+        })
+
+        context('Given there are bookmarks', () => {
+            const testBookmarks = fixtures.makeBookmarksArray()
+
+            beforeEach('insert bookmarks', () => {
+                return db
+                    .into('bookmarks_list')
+                    .insert(testBookmarks)
+                    
+            })
+
+            it('removed the bookmark by ID', () => {
+                const idToRemove = 2
+                const expectedBookmarks = testBookmarks.filter(bm => bm.id !== idToRemove)
+                return supertest(app)
+                    .delete(`/bookmarks/${idToRemove}`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                    .expect(204)
+                    .then(() => 
+                        supertest(app)
+                        .get('/bookmarks')
+                        .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                        .expect(expectedBookmarks)
+                        )
             })
         })
     })

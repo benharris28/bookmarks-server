@@ -111,6 +111,21 @@ bookmarksRouter
 
 bookmarksRouter
     .route('/bookmarks/:id')
+    .all((req, res, next) => {
+        const { id } = req.params
+        BookmarksService.getBookmarkById(req.app.get('db'), id)
+            .then(bookmark => {
+                if(!bookmark) {
+                    logger.error(`Bookmark with id ${id} not found.`)
+                    return res.status(404).json({
+                        error: { message: 'Bookmark not found' }
+                    })
+                }
+                res.bookmark = bookmark
+                next()
+            })
+            .catch(next)
+    })
     .get((req, res, next) => { 
         
         const { id } = req.params;
@@ -133,25 +148,22 @@ bookmarksRouter
             .catch(next)
        
     })
-    .delete((req, res) => {
+    .delete((req, res, next) => {
         // delete bookmark with matching id
         const { id } = req.params;
-        const bookmarkIndex = store.bookmarks.findIndex(bm => bm.id == id);
 
-        if (bookmarkIndex === -1) {
-            logger.error(`Bookmark with id ${id} not found`);
-            return res
-                .status(404)
-                .send('Not found')
-        }
+        BookmarksService.deleteBookmark(
+            req.app.get('db'),
+            id
+        )
+            .then(numRowsAffected => {
+                logger.info(`Bookmark with id ${id} deleted`)
+                res.status(204).end()
+            })
+            .catch(next)
+        
 
-        store.bookmarks.splice(bookmarkIndex, 1);
-
-        logger.info(`Bookmark with id ${id} deleted`);
-
-        res
-            .status(204)
-            .end();
+        
 
     })
 
