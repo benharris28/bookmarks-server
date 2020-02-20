@@ -33,3 +33,11 @@
 {"message":"Bookmark with id 123 not found.","level":"error"}
 {"message":"Bookmark with id 123 not found.","level":"error"}
 {"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Unauthorized request to path: /api/bookmarks/12345","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
