@@ -41,3 +41,26 @@
 {"message":"Bookmark with id 123 not found.","level":"error"}
 {"message":"Bookmark with id 2 deleted","level":"info"}
 {"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Unauthorized request to path: /api/bookmarks/2","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}
+{"message":"Unauthorized request to path: /api/bookmarks/2","level":"error"}
+{"message":"Bookmark with id 123 not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted","level":"info"}
+{"message":"Bookmark with id 12345 not found.","level":"error"}

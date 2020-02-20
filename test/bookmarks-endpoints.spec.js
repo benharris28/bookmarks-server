@@ -159,5 +159,41 @@ describe(`GET /api/bookmarks`, () => {
                     })
             })
         })
+
+        context('Given there are bookmarks in the database', () => {
+            const testBookmarks = fixtures.makeBookmarksArray()
+
+            beforeEach('insert bookmarks', () => {
+                return db
+                    .into('bookmarks_list')
+                    .insert(testBookmarks)
+            })
+
+            it('responds with 204 and updates the bookmark', () => {
+                const idToUpdate = 2
+                const updateBookmark = {
+                    title: 'updated bookmark title',
+                    description: 'updated description'
+                }
+
+                const expectedBookmark = {
+                    ...testBookmarks[idToUpdate - 1],
+                    ...updateBookmark
+                }
+
+                return supertest(app)
+                    .patch(`/api/bookmarks/${idToUpdate}`)
+                    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                    .send(updateBookmark)
+                    .expect(204)
+                    .then(res => 
+                        supertest(app)
+                            .get(`/api/bookmarks/${idToUpdate}`)
+                            .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                            .expect(expectedBookmark)
+    
+                    )
+            })
+        })
     })
 })

@@ -167,5 +167,27 @@ bookmarksRouter
         
 
     })
+    .patch(bodyParser, (req, res, next) => {
+        const { title, url, description, rating} = req.body
+        const bookmarkToUpdate = { title, url, description, rating }
+
+        const numberOfValues = Object.values(bookmarkToUpdate).length
+        if(numberOfValues === 0) {
+            return res.status(400).json({
+                error: { message: 'Request must contain a value to update' }
+            })
+        }
+        BookmarksService.updateBookmark(
+            req.app.get('db'),
+            req.params.id,
+            bookmarkToUpdate
+
+
+        )
+        .then(numRowsAffected => {
+            res.status(204).end()
+        })
+        .catch(next)
+    })
 
     module.exports = bookmarksRouter
