@@ -66,3 +66,9 @@
 {"message":"Bookmark with id 12345 not found.","level":"error"}
 {"message":"Rating is not valid","level":"error"}
 {"message":"Description is required","level":"error"}
+{"message":"Bookmark with id 3 created","level":"info"}
+{"message":"Bookmark with id 4 created","level":"info"}
+{"message":"Bookmark with id 5 created","level":"info"}
+{"message":"Bookmark with id 6 created","level":"info"}
+{"message":"Bookmark with id 7 created","level":"info"}
+{"message":"Bookmark with id 8 created","level":"info"}
